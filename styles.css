@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap');
+
+body {
+    display: block;
+    box-sizing: border-box;
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    background-color: #FBF4DA;
+}
+
+header {
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 15vh;
+    background-color: #272727;
+    color: white;
+}
+
+h1 {
+    margin: 5vh auto;
+    font-size: 2.5rem;
+}
+
+main {
+    position: relative;
+    top: 15vh;
+}
+
+#new-book {
+    margin: 5vh;
+    height: 50px;
+    width: 50px;
+    background-color: #81C0C5;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 2px 5px 10px #888888;
+    font-size: 2.7rem;
+}
+
+#new-book:hover {
+    background-color: #67bcc2;
+    transition: 0.3s;
+    transform: scale(1.06);
+}
+
+.form-container {
+    text-align: center;
+    margin: 1vh auto;
+    padding: 3vh 2vw;
+    width: 45vh;
+    border: solid 1px;
+    border-radius: 8px;
+    background-color: #272727;
+    color: white;
+    display: none;
+}
+
+form label {
+    font-size: 1.2rem;
+    margin: 5px;
+}
+
+form input {
+    margin: 1vh auto;
+    padding: 5px;
+}
+
+#submit, .read, .delete {
+    cursor: pointer;
+    font-family: 'Open Sans', sans-serif;
+    border-radius: 5px;
+    padding: 6px;
+    background-color: #6e6e6e;
+    color: white;
+    margin: 5px;
+}
+
+#submit:hover {
+    background-color: #5c5c5c;
+    transition: 0.3s;
+}
+
+.books {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.card {
+    border-radius: 8px;
+    min-height: 20vh;
+    height: auto;
+    width: 200px;
+    margin: 5vh 2vw;
+    padding-bottom: 10px;
+    text-align: center;
+    background-color: #81C0C5;
+    box-shadow: 5px 5px 30px #888888;
+}
+
+.card:hover {
+    transform: scale(1.02);
+}
