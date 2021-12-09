@@ -1,66 +1,114 @@
-const books = document.querySelector(".books");
+let myLibrary = JSON.parse(localStorage.getItem('books')) || []
 
-class Book {
-    constructor(title, author, pages) {
-        this.title = title;
-        this.author = author;
-        this.pages = pages;
+localStorage.setItem('books', JSON.stringify(myLibrary))
+
+// Check if storage is available
+function storageAvailable(type) {
+    var storage
+    try {
+        storage = window[type]
+        var x = '__storage_test__'
+        storage.setItem(x, x)
+        storage.removeItem(x)
+        return true
     }
-    createCard() {
-        const div = document.createElement("div");
-        const title = document.createElement("p");
-        const author = document.createElement("p");
-        const pages = document.createElement("p");
-        const del = document.createElement("button");
-        const read = document.createElement("button");
-        del.className = "delete";
-        del.innerHTML = "Remove";
-        read.className = "read";
-        read.innerHTML = "Read";
-        books.appendChild(div);
-        div.className = "card";
-        div.appendChild(title);
-        div.appendChild(author);
-        div.appendChild(pages);
-        div.appendChild(del);
-        div.appendChild(read);
-        title.innerHTML = "<strong>Title: </strong>" + book["title"];
-        author.innerHTML = "<strong>Author: </strong>" + book["author"];
-        pages.innerHTML = "<strong>Pages: </strong>" + book["pages"];
-        del.addEventListener("click", () => div.parentNode.removeChild(div));
-        read.addEventListener("click", () => {
-            if (read.innerHTML === "Read") {
-                read.innerHTML = "Unread";
-            } else {
-                read.innerHTML = "Read";
-            }
-        });
+    catch(e) {
+        return e instanceof DOMException && (
+            // everything except Firefox
+            e.code === 22 ||
+            // Firefox
+            e.code === 1014 ||
+            // test name field too, because code might not be present
+            // everything except Firefox
+            e.name === 'QuotaExceededError' ||
+            // Firefox
+            e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+            // acknowledge QuotaExceededError only if there's something already stored
+            (storage && storage.length !== 0)
     }
 }
 
-// Create starter book
-let book = new Book("Fahrenheit 451", "Ray Bradbury", 256);
-console.log(book[title]);
-book.createCard();
-
-const bookForm = document.querySelector(".form-container");
-const newBook = document.getElementById("new-book");
-newBook.addEventListener("click", () => {
-    if (bookForm.style.display === "none") {
-        bookForm.style.display = "block";
-    } else {
-        bookForm.style.display = "none";
+class Book {
+    constructor(title, author, pages) {
+        this.title = title
+        this.author = author
+        this.pages = pages
     }
-});
 
-const submit = document.getElementById("submit");
-submit.addEventListener("click", addBookToLibrary);
+    createCard() {
+        const books = document.querySelector('.books')
+        const div = document.createElement('div')
+        const title = document.createElement('p')
+        const author = document.createElement('p')
+        const pages = document.createElement('p')
+        const del = document.createElement('button')
+        const read = document.createElement('button')
+        books.appendChild(div)
+        del.classList.add = 'delete'
+        del.innerText = 'Remove'
+        read.classList.add = 'read'
+        read.innerText = 'Read'
+        div.classList.add = 'card'
+        div.appendChild(title)
+        div.appendChild(author)
+        div.appendChild(pages)
+        div.appendChild(del)
+        div.appendChild(read)
+        title.innerText = 'Title: ' + this.title
+        author.innerText = 'Author: ' + this.author
+        pages.innerText = 'Pages: ' + this.pages
+        del.addEventListener('click', () => div.parentNode.removeChild(div))
+        read.addEventListener('click', () => {
+            read.innerText = read.innerText === 'Read' ? 'Unread' : 'Read'
+        })
+    }
+}
+
+displayLibrary()
+
+const newBookButton = document.getElementById('new-book')
+newBookButton.addEventListener('click', () => toggleBookInfoForm())
+
+document.getElementById('submit').addEventListener('click', (e) => {
+    e.preventDefault()
+    saveBook()
+})
+
+function toggleBookInfoForm() {
+    const addBook = document.querySelector('.form-container')
+    let currentVisibility = addBook.style.display
+    
+    addBook.style.display = currentVisibility == 'block' ? 'none' : 'block'
+
+    newBookButton.innerText = newBookButton.innerText === '-' ? '+' : '-'
+}
+
+function getStorage() {
+
+}
+
+function saveBook() {
+    console.log('this is being called')
+    addBookToLibrary()
+    displayLibrary()
+}
+
 
 function addBookToLibrary() {
-    event.preventDefault();
-    let title = document.getElementById("title").value;
-    let author = document.getElementById("author").value;
-    let pages = document.getElementById("pages").value;
-    book = new Book(title, author, pages);
-    book.createCard();
+    // Add form input to local storage
+    const title = document.getElementById('title').value
+    const author = document.getElementById('author').value
+    const pages = document.getElementById('pages').value
+    
+    const book = new Book(title, author, pages)
+    myLibrary.push(book)
+    console.log(myLibrary)
+    localStorage.setItem('books', JSON.stringify(myLibrary))
+}
+
+function displayLibrary() {
+    for (let book of myLibrary) {
+        book = new Book(book['title'], book['author'], book['pages'])
+        book.createCard()
+    }
 }

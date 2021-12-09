@@ -104,7 +104,3 @@ form input {
     background-color: #81C0C5;
     box-shadow: 5px 5px 30px #888888;
 }
-
-.card:hover {
-    transform: scale(1.02);
-}
