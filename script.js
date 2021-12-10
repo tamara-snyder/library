@@ -1,35 +1,8 @@
 let myLibrary = JSON.parse(localStorage.getItem('books')) || []
 
-updateLocalStorage()
-
-// Check if storage is available
-function storageAvailable(type) {
-    var storage
-    try {
-        storage = window[type]
-        var x = '__storage_test__'
-        storage.setItem(x, x)
-        storage.removeItem(x)
-        return true
-    }
-    catch(e) {
-        return e instanceof DOMException && (
-            // everything except Firefox
-            e.code === 22 ||
-            // Firefox
-            e.code === 1014 ||
-            // test name field too, because code might not be present
-            // everything except Firefox
-            e.name === 'QuotaExceededError' ||
-            // Firefox
-            e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
-            // acknowledge QuotaExceededError only if there's something already stored
-            (storage && storage.length !== 0)
-    }
-}
+updateLocalStorage() 
 
 let bookCount = 0
-
 class Book {
     constructor(title, author, pages) {
         this.title = title
@@ -92,6 +65,8 @@ function toggleBookInfoForm() {
 function saveBook() {
     addBookToLibrary()
     displayLibrary()
+    toggleBookInfoForm()
+    clearForm()
 }
 
 
@@ -117,19 +92,16 @@ function displayLibrary() {
 }
 
 function removeBookFromLibrary(index) {
-    console.log(myLibrary)
     myLibrary.splice(index, 1)
-    console.log(myLibrary)
     updateLocalStorage()
 }
 
 function updateLocalStorage() {
     localStorage.setItem('books', JSON.stringify(myLibrary))
-    console.log(myLibrary)
 }
 
 function clearForm() {
-
+    document.querySelector('.add-book').reset()
 }
 
 function clearDisplay() {
