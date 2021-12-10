@@ -1,6 +1,6 @@
 let myLibrary = JSON.parse(localStorage.getItem('books')) || []
 
-localStorage.setItem('books', JSON.stringify(myLibrary))
+updateLocalStorage()
 
 // Check if storage is available
 function storageAvailable(type) {
@@ -28,11 +28,14 @@ function storageAvailable(type) {
     }
 }
 
+let bookCount = 0
+
 class Book {
     constructor(title, author, pages) {
         this.title = title
         this.author = author
         this.pages = pages
+        this.id = bookCount++
     }
 
     createCard() {
@@ -57,7 +60,10 @@ class Book {
         title.innerText = 'Title: ' + this.title
         author.innerText = 'Author: ' + this.author
         pages.innerText = 'Pages: ' + this.pages
-        del.addEventListener('click', () => div.parentNode.removeChild(div))
+        del.addEventListener('click', () => {
+            div.parentNode.removeChild(div)
+            removeBookFromLibrary(this.id)
+        })
         read.addEventListener('click', () => {
             read.innerText = read.innerText === 'Read' ? 'Unread' : 'Read'
         })
@@ -83,12 +89,7 @@ function toggleBookInfoForm() {
     newBookButton.innerText = newBookButton.innerText === '-' ? '+' : '-'
 }
 
-function getStorage() {
-
-}
-
 function saveBook() {
-    console.log('this is being called')
     addBookToLibrary()
     displayLibrary()
 }
@@ -107,8 +108,33 @@ function addBookToLibrary() {
 }
 
 function displayLibrary() {
+    bookCount = 0
+    clearDisplay()
     for (let book of myLibrary) {
         book = new Book(book['title'], book['author'], book['pages'])
         book.createCard()
+    }
+}
+
+function removeBookFromLibrary(index) {
+    console.log(myLibrary)
+    myLibrary.splice(index, 1)
+    console.log(myLibrary)
+    updateLocalStorage()
+}
+
+function updateLocalStorage() {
+    localStorage.setItem('books', JSON.stringify(myLibrary))
+    console.log(myLibrary)
+}
+
+function clearForm() {
+
+}
+
+function clearDisplay() {
+    const books = document.querySelector('.books')
+    while (books.firstChild) {
+        books.removeChild(books.lastChild)
     }
 }
