@@ -1,13 +1,16 @@
+'use strict'
+
 let myLibrary = JSON.parse(localStorage.getItem('books')) || []
 
 updateLocalStorage() 
 
 let bookCount = 0
 class Book {
-    constructor(title, author, pages) {
+    constructor(title, author, pages, isRead = false) {
         this.title = title
         this.author = author
         this.pages = pages
+        this.isRead = isRead
         this.id = bookCount++
     }
 
@@ -20,25 +23,30 @@ class Book {
         const del = document.createElement('button')
         const read = document.createElement('button')
         books.appendChild(div)
-        del.classList.add = 'delete'
+        del.classList.add('delete')
         del.innerText = 'Remove'
-        read.classList.add = 'read'
-        read.innerText = 'Read'
-        div.classList.add = 'card'
+        read.classList.add('read')
+        read.innerText = this.isRead ? 'Have read' : 'Haven\'t read'
+        title.setAttribute('id', 'book-title')
+        author.setAttribute('id', 'book-author')
+        pages.setAttribute('id', 'book-pages')
+        div.classList.add('card')
         div.appendChild(title)
         div.appendChild(author)
         div.appendChild(pages)
         div.appendChild(del)
         div.appendChild(read)
-        title.innerText = 'Title: ' + this.title
-        author.innerText = 'Author: ' + this.author
-        pages.innerText = 'Pages: ' + this.pages
+        title.innerText = this.title
+        author.innerText = this.author
+        pages.innerText = `${this.pages} pages`
         del.addEventListener('click', () => {
             div.parentNode.removeChild(div)
             removeBookFromLibrary(this.id)
         })
         read.addEventListener('click', () => {
-            read.innerText = read.innerText === 'Read' ? 'Unread' : 'Read'
+            read.innerText = read.innerText === 'Have read' ? 'Haven\'t read' : 'Have read'
+            myLibrary[this.id].isRead = this.isRead ? false : true
+            updateLocalStorage()
         })
     }
 }
@@ -75,10 +83,10 @@ function addBookToLibrary() {
     const title = document.getElementById('title').value
     const author = document.getElementById('author').value
     const pages = document.getElementById('pages').value
+    const isRead = false
     
-    const book = new Book(title, author, pages)
+    const book = new Book(title, author, pages, isRead)
     myLibrary.push(book)
-    console.log(myLibrary)
     localStorage.setItem('books', JSON.stringify(myLibrary))
 }
 
@@ -86,7 +94,7 @@ function displayLibrary() {
     bookCount = 0
     clearDisplay()
     for (let book of myLibrary) {
-        book = new Book(book['title'], book['author'], book['pages'])
+        book = new Book(book['title'], book['author'], book['pages'], book['isRead'])
         book.createCard()
     }
 }
