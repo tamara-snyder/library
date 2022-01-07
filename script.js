@@ -21,30 +21,42 @@ class Book {
         const author = document.createElement('p')
         const pages = document.createElement('p')
         const del = document.createElement('button')
-        const read = document.createElement('button')
-        books.appendChild(div)
-        del.classList.add('delete')
-        del.innerText = 'Remove'
-        read.classList.add('read')
-        read.innerText = this.isRead ? 'Have read' : 'Haven\'t read'
+        const readContainer = document.createElement('div')
+        let readInput = document.createElement('input')
+        const readLabel = document.createElement('label')
+
+        div.classList.add('card')
         title.setAttribute('id', 'book-title')
         author.setAttribute('id', 'book-author')
         pages.setAttribute('id', 'book-pages')
-        div.classList.add('card')
+        del.classList.add('delete')
+        del.innerText = 'Remove'
+        readContainer.classList.add('checkbox')
+        readInput.setAttribute('type', 'checkbox')
+        readInput.setAttribute('id', 'cb')
+        readInput.setAttribute('name', 'cb')
+
+        books.appendChild(div)
         div.appendChild(title)
         div.appendChild(author)
         div.appendChild(pages)
         div.appendChild(del)
-        div.appendChild(read)
+        div.appendChild(readContainer)
+        readContainer.appendChild(readInput)
+        readContainer.appendChild(readLabel)
+
         title.innerText = this.title
         author.innerText = this.author
         pages.innerText = `${this.pages} pages`
+        readInput.checked = this.isRead ? true : false
+        readLabel.innerText = 'Have read'
+
         del.addEventListener('click', () => {
             div.parentNode.removeChild(div)
             removeBookFromLibrary(this.id)
         })
-        read.addEventListener('click', () => {
-            read.innerText = read.innerText === 'Have read' ? 'Haven\'t read' : 'Have read'
+        readInput.addEventListener('click', () => {
+            readInput = readInput.checked ? false: true
             myLibrary[this.id].isRead = this.isRead ? false : true
             updateLocalStorage()
         })
