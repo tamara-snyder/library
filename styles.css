@@ -8,7 +8,7 @@ body {
     text-align: center;
     font-family: 'Open Sans', sans-serif;
     font-size: 16px;
-    background-color: #FBF4DA;
+    background-color: #81C0C5;
 }
 
 header {
@@ -101,8 +101,7 @@ form input {
     margin: 5vh 2vw;
     padding-bottom: 10px;
     text-align: center;
-    background-color: #81C0C5;
-    /* box-shadow: 5px 5px 30px #888888; */
+    background-color: #FBF4DA;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     transition: 0.3s;
 }
@@ -111,10 +110,41 @@ form input {
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
   }
 
-  #book-title {
-      font-size: 2rem;
-  }
+#book-title {
+    font-size: 2rem;
+}
 
-  #book-author {
-      font-size: 1.5rem;
-  }
+#book-author {
+    font-size: 1.5rem;
+}
+
+.edit {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.delete {
+    all: unset;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border: solid black 1px;
+    border-radius: 5px;
+}
+
+.delete:hover {
+    background-color: #f7ecc7;
+    transition: 0.3s;
+}
+
+#cb {
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+}
+
+#have-read {
+    font-size: 1.2rem;
+    vertical-align: super;
+}
